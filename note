@@ -1,0 +1,110 @@
+    # Adding "Go Back" button
+    TkinterCustomButton(master=verify_window, text="Go Back", command=go_back, bg="red").pack(pady=10)
+    
+    
+    
+    
+    
+    
+    
+from tkinter import Tk, Label, Entry, messagebox
+from custom_button import TkinterCustomButton  # Importing your custom button class
+from tkinter import Frame, Canvas
+import utils
+import smtplib
+from email.mime.text import MIMEText
+import ssl
+import random
+
+def start(window):
+    window.title("Graphical Authentication System")
+    window.geometry("1280x600")
+
+    segments_frame = Frame(window, height=600, width=1280)
+    segments_frame.pack(fill='both', expand=2)
+
+    label = Label(segments_frame, text="OTP Verification", font=('Calibri', 20))
+    label.pack(padx=100, pady=10)
+
+    label = Label(segments_frame, text="Enter your email address:", font=('Calibri', 20))
+    label.pack(padx=100, pady=10)
+    global email_entry
+    email_entry = Entry(window)
+    email_entry.pack(pady=200)
+
+    canvas = Canvas(segments_frame, width=100, height=150)
+    canvas.bind("<Button-1>", utils.callback)
+
+    # Using custom button for send_otp_and_open_verify_window
+    send_otp_button = TkinterCustomButton(master=window, text="Send OTP", command=send_otp_and_open_verify_window)
+    send_otp_button.pack(padx=10,pady=10)
+
+    window.mainloop()
+
+
+def send_otp_email(email, otp):
+    sender_email = "laxmansinghnegi10@gmail.com"
+    app_password = "ztxm bxlv ygfw qmtg"
+
+    message = MIMEText(f"Your OTP is: {otp}")
+    message['Subject'] = 'OTP Verification'
+    message['From'] = sender_email
+    message['To'] = email
+
+    try:
+        server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+        server.login(sender_email, app_password)
+        server.sendmail(sender_email, [email], message.as_string())
+        server.quit()
+        print("Email sent successfully!")
+    except Exception as e:
+        print("Failed to send email.")
+        print(e)
+
+
+def send_otp_and_open_verify_window():
+    email = email_entry.get()
+    global user_otp
+    user_otp = str(random.randint(1000, 9999))  # Generate a 6-digit OTP
+
+    send_otp_email(email, user_otp)
+
+    global verify_window
+    verify_window = Tk()
+    verify_window.title("Verify OTP")
+    verify_window.geometry("1280x600")
+    
+    # Adding "Go Back" button
+    TkinterCustomButton(master=verify_window, text="Go Back", command=go_back, bg="red").pack(pady=10)
+    
+
+    Label(verify_window, text="Enter OTP sent to your email:").pack(pady=10)
+    global otp_entry
+    otp_entry = Entry(verify_window, show="*")
+    otp_entry.pack(pady=5)
+
+    # Using custom button for submit
+    submit_button = TkinterCustomButton(master=verify_window, text="Submit", command=submit_otp)
+    submit_button.pack(pady=10)
+
+    verify_window.mainloop()
+
+
+def submit_otp():
+    entered_otp = otp_entry.get()
+    if entered_otp == user_otp:
+        messagebox.showinfo("OTP Verification", "OTP verification successful.")
+        verify_window.destroy()  # Close the OTP verification window
+    else:
+        messagebox.showerror("OTP Verification", "Invalid OTP, please try again.")
+
+
+def go_back():
+    verify_window.destroy()  # Destroy the OTP verification window
+    start()  # Go back to the initial window
+
+
+if __name__ == "__main__":
+    window = Tk()
+    start(window)
+    
