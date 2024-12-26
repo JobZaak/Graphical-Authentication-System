@@ -41,8 +41,8 @@ def start(window):
     go_back_button.pack(padx=10, pady=10)
 
 def send_otp_email(email, otp):
-    sender_email = "jobzachariah60@gmail.com"
-    app_password = "npsq zovn rlcm pidh"
+    sender_email = "gmail id"
+    app_password = "password"
 
     message = MIMEText(f"Your OTP is: {otp}")
     message['Subject'] = 'OTP Verification'
@@ -86,7 +86,7 @@ def submit_otp():
     entered_otp = otp_entry.get()
     if entered_otp == user_otp:
         messagebox.showinfo("OTP Verification", "OTP verification successful.")
-        webbrowser.open("https://www.youtube.com/channel/UCOX-54A_Id2K273nVZ2isTA")  # Open the website in the default browser
+        webbrowser.open("https://jobdoneright.framer.ai/")  # Open the website in the default browser
         verify_window.destroy()  # Close the OTP verification window
     else:
         messagebox.showerror("OTP Verification", "Invalid OTP, please try again.")

@@ -67,7 +67,7 @@ def toggle(event, window):
 
         if original_text[0] == input_text:
             print("Authenticated")
-            #webbrowser.open("https://www.youtube.com/channel/UCOX-54A_Id2K273nVZ2isTA")  # Open the website in the default browser
+            #webbrowser.open("https://jobdoneright.framer.ai/")  # Open the website in the default browser
             utils.create_popup(msg="Authenticated :)", font="Gabriola 28 bold")
         else:
             print("Authentication Failed")

@@ -98,7 +98,7 @@ def authenticate(selected_image, selected_password, selected_name):
                     print("Authenticated!!")
                     
                     messagebox.showinfo("Login System", "Authenticated!!")
-                    webbrowser.open("https://www.youtube.com/channel/UCOX-54A_Id2K273nVZ2isTA")  # Open the website in the default browser
+                    webbrowser.open("https://jobdoneright.framer.ai/")  # Open the website in the default browser
                     break
                 else:
                     image_attempts += 1
